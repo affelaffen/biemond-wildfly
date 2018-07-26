@@ -23,7 +23,8 @@ module PuppetX
             result[key] = _deep_transform_values_in_object(value, &block)
           end
         when Array
-          object.map { |e| _deep_transform_values_in_object(e, &block) }
+          list = object.map { |e| _deep_transform_values_in_object(e, obfuscate, &block) }
+          list.any? { |e| e.is_a?(Hash) } ? list : list.sort
         else
           yield(object)
         end
